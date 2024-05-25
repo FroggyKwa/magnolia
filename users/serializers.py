@@ -1,8 +1,9 @@
 from django.http import Http404
-from rest_framework import serializers
+from rest_framework import serializers, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
 
+from emails.models import OneTimePassword
 from users.models import User
 
 
@@ -19,3 +20,13 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['email', 'email_confirmed']
+
+
+class OTPCheckSerializer(serializers.Serializer):
+    def validate(self, attrs):
+        code = attrs.get('code')
+        otp = get_object_or_404(OneTimePassword, key=code)
+        if code == otp.code:
+            attrs['otp'] = otp
+            return attrs
+        raise ValidationError('OTP code does not match', code=status.HTTP_400_BAD_REQUEST)

@@ -1,5 +1,5 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
-from django.contrib.auth.models import PermissionsMixin, UserManager
+from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -53,11 +53,3 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email if self.fullname == '' else self.fullname
-
-
-class OneTimePassword(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    code = models.CharField(max_length=6, unique=True)
-
-    class Meta:
-        db_table = 'one_time_passwords'
