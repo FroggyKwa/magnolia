@@ -1,0 +1,43 @@
+services:
+  database:
+    container_name: database
+    image: mysql:8.4.0
+    env_file:
+      - ".docker/conf/common.env"
+    volumes:
+      - ".docker/conf/mysql/mysql.conf:/etc/mysql/conf.d/mysql.conf"
+    ulimits:
+      nofile:
+        soft: 1048576
+        hard: 1048576
+    networks:
+      - db-net
+    ports:
+      - "3306:3306"
+
+  backend:
+    container_name: backend
+    build:
+      context: .
+      dockerfile: ./.docker/Dockerfile
+    image: python:3.10
+    command: "sh /application/.docker/conf/gunicorn/django-dev.sh"
+    volumes:
+      - "./:/application"
+    working_dir: /application
+    depends_on:
+      - database
+    env_file:
+      - ".docker/conf/common.env"
+      - ".docker/conf/server.env"
+    environment:
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "8000:8000"
+    networks:
+      - db-net
+      - nginx-net
+
+networks:
+  db-net:
+  nginx-net:
