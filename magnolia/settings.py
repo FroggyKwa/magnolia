@@ -24,7 +24,9 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'search',
-    'users'
+    'users',
+    'celery_app',
+    'email'
 ]
 
 REST_FRAMEWORK = dict(
@@ -122,5 +124,7 @@ STATICFILES_DIRS = ['frontend/dist', ]
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 AUTH_USER_MODEL = 'users.User'
