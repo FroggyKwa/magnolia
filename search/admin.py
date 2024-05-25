@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import *
+from search.models import *
 
 @admin.register(Building)
 class BuildingAdmin(admin.ModelAdmin):
