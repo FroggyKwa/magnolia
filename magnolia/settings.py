@@ -23,7 +23,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'auth',
+    'search',
 ]
 
 REST_FRAMEWORK = dict(
@@ -77,8 +77,12 @@ ASGI_APPLICATION = 'magnolia.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('MYSQL_USER'),
+        'PASSWORD': os.getenv('MYSQL_PASSWORD'),
+        'HOST': 'database',
+        'PORT': os.getenv('MYSQL_PORT', '3306'),
     }
 }
 
@@ -115,9 +119,5 @@ STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
 STATICFILES_DIRS = ['frontend/dist', ]
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
-
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
