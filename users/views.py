@@ -12,6 +12,7 @@ class SignUpAPIView(APIView):
             data = request.data
             serializer = UserSerializer(data=data)
             serializer.is_valid(raise_exception=True)
+            serializer.save()
             return Response(data={"status": "OK"}, status=status.HTTP_201_CREATED)
         except ValidationError as e:
             raise ValidationError(e.detail)
