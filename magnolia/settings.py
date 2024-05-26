@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     'search',
     'users',
     'celery_app',
-    'email'
+    'emails'
 ]
 
 REST_FRAMEWORK = dict(

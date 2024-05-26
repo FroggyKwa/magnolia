@@ -16,8 +16,8 @@ def send_email(token, email, hostname):
     {hostname.strip('/')}/reset?token={token}"""
 
     send_mail(
-        "Password Reset for dvfu lms",
+        "Временный пароль для magnolia",
         email_plaintext_message,
-        "learn@dvfu.ru",
+        "froggykwa@yandex.ru",
         [email]
     )

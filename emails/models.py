@@ -9,7 +9,7 @@ from users.models import User
 
 class OneTimePassword(models.Model):
     user = models.OneToOneField(User, related_name='otp', on_delete=models.CASCADE)
-    token = models.CharField(max_length=6, unique=True, primary_key=True)
+    token = models.CharField(max_length=128, unique=True, primary_key=True)
     expiration_date = models.DateTimeField()
 
     @property
