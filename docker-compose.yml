@@ -38,6 +38,34 @@ services:
       - db-net
       - nginx-net
 
+  redis:
+    container_name: redis
+    image: redis:5.0.6-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - db-net
+
+  email-service:
+    container_name: email-service
+    image: python:3.10
+#    command: "sh /application/.docker/conf/gunicorn/celery.sh"
+    command: "celery -A celery_app worker -c 2 -O fair -l info"
+    volumes:
+      - "./:/application"
+    working_dir: /application
+    env_file:
+      - ".docker/conf/common.env"
+      - ".docker/conf/server.env"
+    networks:
+      - db-net
+    ports:
+      - "7999:7999"
+    depends_on:
+      - database
+      - redis
+      - backend
+
 networks:
   db-net:
   nginx-net:
