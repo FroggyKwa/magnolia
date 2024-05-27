@@ -5,6 +5,6 @@ from users import views
 urlpatterns = [
     path('api/sign_in', views.SignInAPIView.as_view(),
          name="sign_in_and_get_token"),
-    path('api/sign_in_with_token', views.CheckOTPAPIView.as_view(),
+    path('api/sign_in_with_token', views.CheckOneTimePasswordAPIView.as_view(),
          name="sign_in_with_token"),
 ]

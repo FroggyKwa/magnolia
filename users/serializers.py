@@ -23,10 +23,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class OTPCheckSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    code = serializers.CharField(required=True)
     def validate(self, attrs):
         code = attrs.get('code')
-        otp = get_object_or_404(OneTimePassword, key=code)
-        if code == otp.code:
-            attrs['otp'] = otp
+        otp = get_object_or_404(OneTimePassword, token__endswith=code)
+        if code == otp.code and otp.user.email == attrs.get('email'):
             return attrs
-        raise ValidationError('OTP code does not match', code=status.HTTP_400_BAD_REQUEST)
+        raise ValidationError('OTP code does not match', code=status.HTTP_401_UNAUTHORIZED)

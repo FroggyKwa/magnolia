@@ -1,9 +1,11 @@
 import datetime
 
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import AnonymousUser
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
+from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -36,18 +38,23 @@ class SignInAPIView(APIView):
             return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
 
 
-class CheckOTPAPIView(APIView):
+class CheckOneTimePasswordAPIView(APIView):
+    permission_classes = (AllowAny,)
+
     def post(self, request, *args, **kwargs):
         try:
             data = request.data
+            if not request.user.is_anonymous:
+                return Response(data={"status": "OK"}, status=status.HTTP_200_OK)
             serializer = OTPCheckSerializer(data=data)
             confirmed = serializer.is_valid(raise_exception=True)
-            otp = serializer.validated_data["otp"]
+            user = get_object_or_404(User, email=serializer.validated_data.get("email"))
             if confirmed:
-                otp.user.email_confirmed = True
-                otp.user.save()
+                user.email_confirmed = True
+                user.otp.delete()
+                user.save()
                 authenticate(request)
-                login(request, otp.user)
+                login(request, user)
                 return Response(data={"status": "OK"}, status=status.HTTP_200_OK)
         except ValidationError as e:
             return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
