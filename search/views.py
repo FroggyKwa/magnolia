@@ -7,6 +7,7 @@ from search.serializers import BuildingSerializer, DepartmentSerializer, Teacher
 
 
 class BuildingViewSet(viewsets.ModelViewSet):
+    http_method_names = ['get', 'head', 'options', 'trace']
     queryset = Building.objects.all()
     permission_classes = [permissions.IsAuthenticated]
     filterset_fields = ['name', "address"]
@@ -24,6 +25,7 @@ class BuildingViewSet(viewsets.ModelViewSet):
 
 
 class DepartmentViewSet(viewsets.ModelViewSet):
+    http_method_names = ['get', 'head', 'options', 'trace']
     queryset = Department.objects.prefetch_related('teachers', 'buildings').all()
     permission_classes = [permissions.IsAuthenticated]
     filterset_fields = ['name']
@@ -41,6 +43,7 @@ class DepartmentViewSet(viewsets.ModelViewSet):
 
 
 class TeacherViewSet(viewsets.ModelViewSet):
+    http_method_names = ['get', 'head', 'options', 'trace']
     queryset = Teacher.objects.all()
     permission_classes = [permissions.IsAuthenticated]
     filterset_fields = ['fullname']
