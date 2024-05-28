@@ -4,7 +4,7 @@ from django.db import models
 class Building(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
     address = models.CharField(max_length=255, blank=True, null=True)
-    departments = models.ManyToManyField(to="Department", related_name="building", blank=True)
+    departments = models.ManyToManyField(to="Department", related_name="buildings", blank=True)
 
     class Meta:
         db_table = 'buildings'

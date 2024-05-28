@@ -49,8 +49,7 @@ services:
   email-service:
     container_name: email-service
     image: python:3.10
-#    command: "sh /application/.docker/conf/gunicorn/celery.sh"
-    command: "celery -A celery_app worker -c 2 -O fair -l info"
+    command: "sh /application/.docker/conf/gunicorn/celery.sh"
     volumes:
       - "./:/application"
     working_dir: /application
