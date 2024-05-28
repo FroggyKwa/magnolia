@@ -7,6 +7,7 @@ DEBUG = os.getenv('DJANGO_DEBUG')
 ALLOWED_HOSTS = [os.getenv('DJANGO_ALLOWED_HOSTS'), ]
 CSRF_TRUSTED_ORIGINS = [os.getenv('DJANGO_CSRF_TRUSTED_ORIGINS'), ]
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+APPEND_SLASH = True
 
 INTERNAL_IPS = ["127.0.0.1", '*']
 
