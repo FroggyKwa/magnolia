@@ -1,4 +1,13 @@
 {
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "types": ["node"],
+    "lib": [
+      "ES2021.String",
+      "dom",
+      "dom.iterable"
+    ]
+  },
   "files": [],
   "references": [
     {
