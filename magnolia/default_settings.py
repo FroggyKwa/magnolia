@@ -57,8 +57,10 @@ ROOT_URLCONF = 'magnolia.urls'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "http://0.0.0.0:8000",
-    "http://localhost:5173",
+    "http://localhost:8080",
 ]
+
+CORS_ALLOW_CREDENTIALS = True
 
 TEMPLATES = [
     {

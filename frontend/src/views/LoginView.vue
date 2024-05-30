@@ -20,7 +20,7 @@
           <Button
               class="min-w-max px-5 border-round-3xl transition-colors transition-duration- bg-primary hover:bg-primary-reverse"
               @submit.prevent=""
-              @click="sign_in()"
+              @click="get_otp()"
               label="Войти"/>
         </form>
       </div>
@@ -30,21 +30,34 @@
 
 <script setup lang="ts">
 import Toast from "primevue/toast";
-import {useToast} from "primevue/usetoast";
-import {ref} from "vue";
+import { useToast } from "primevue/usetoast";
+import { ref } from "vue";
+import useUserStore from "@/stores/modules/user";
+import { useRouter } from "vue-router";
 
 let email = ref('')
 let isEmailFieldInvalid = ref(true);
 const toast = useToast();
+const userStore = useUserStore();
+const router = useRouter();
 
 function validateEmail() {
   const regex: RegExp = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w*)+$/
   isEmailFieldInvalid = ref(!regex.test(ref(email).value));
 }
 
-function sign_in() {
-  if (isEmailFieldInvalid.value)
-    toast.add({severity: 'error', closable: true, summary: 'Ошибка!', detail: "Введён некорректный адрес эл. почты", life: 5000})
+function get_otp() {
+  if (isEmailFieldInvalid.value || !email.value) {
+    toast.add({
+      severity: 'error',
+      closable: true,
+      summary: 'Ошибка!',
+      detail: "Введён некорректный адрес эл. почты",
+      life: 5000
+    })
+  }
+  userStore.get_otp({ email: email.value });
+  router.push({ name: "confirm_otp_view" })
 }
 </script>
 
