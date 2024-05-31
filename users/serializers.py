@@ -13,13 +13,12 @@ class UserSerializer(serializers.ModelSerializer):
         return User.objects.create_user(**validated_data)
 
     def update(self, instance, validated_data):
-        # instance.email = validated_data.get('email', instance.email) TODO?
-        instance.email_verified = validated_data.get('email_verified', instance.email_verified)
+        instance.email_confirmed = validated_data.get('email_confirmed', instance.email_verified)
         instance.fullname = validated_data.get('fullname', instance.fullname)
 
     class Meta:
         model = User
-        fields = ['email', 'email_confirmed']
+        fields = ['id', 'email', 'fullname', 'email_confirmed']
 
 
 class OTPCheckSerializer(serializers.Serializer):

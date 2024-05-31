@@ -1,7 +1,6 @@
 import datetime
 
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.models import AnonymousUser
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
@@ -9,7 +8,6 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.db.utils import IntegrityError
 
 from emails.models import OneTimePassword
 from users.models import User
@@ -58,3 +56,10 @@ class CheckOneTimePasswordAPIView(APIView):
                 return Response(data={"status": "OK"}, status=status.HTTP_200_OK)
         except ValidationError as e:
             return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
+
+class WhoAmI(APIView):
+    permission_classes = (AllowAny,)
+    def get(self, request):
+        if request.user.is_anonymous:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        return Response(status=status.HTTP_200_OK, data=UserSerializer(request.user).data)

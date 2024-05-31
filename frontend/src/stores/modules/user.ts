@@ -11,6 +11,7 @@ const useUserStore = defineStore('user', () => {
         email: ''
     });
     const authenticated: Ref<boolean> = ref(false);
+    const fetching: Ref<boolean> = ref(true);
     const email_sent = ref(new Date(-8640000000000000));
 
 
@@ -18,12 +19,24 @@ const useUserStore = defineStore('user', () => {
         user.value = received_user
     }
 
-    async function fetchCurrentUser(user_id: number): Promise<UserModel> {
-        let data = { data: {} }
-        await api.get(`users/whoami}`)
-            .then(response => data = response)
-            .catch(error => console.log(error));
-        return data.data as UserModel;
+    function updateUserMutation(payload: {}) {
+        user.value = { ...user.value, ...payload }
+    }
+
+    async function fetchCurrentUser(): Promise<UserModel> {
+        let data = {}
+        await api.get(`whoami`)
+            .then(response => data = response.data)
+            .catch((error) => {
+                if (error.response.status === 401)
+                    data = {
+                        id: -1,
+                        fullname: '',
+                        email: ''
+                    }
+            });
+        fetching.value = false;
+        return data as UserModel;
     }
 
     async function get_otp(payload: { email: string }) {
@@ -34,15 +47,18 @@ const useUserStore = defineStore('user', () => {
             .catch(error => console.log(error));
     }
 
-    async function login(payload: { email: string, code: string }) {
+    async function login(payload: { email: string, code: string }): Promise<boolean> {
         await api.post(`sign_in_with_token`, { email: payload.email, code: payload.code })
             .then(() => {
                 authenticated.value = true;
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                console.log(error)
+            });
+        return authenticated.value;
     }
 
-    return { user, email_sent, authenticated,fetchCurrentUser, receiveUser, get_otp }
+    return { user, email_sent, authenticated, fetching, fetchCurrentUser, receiveUser, get_otp, login, updateUserMutation }
 })
 
 export default useUserStore;

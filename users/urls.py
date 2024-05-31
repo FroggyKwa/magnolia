@@ -7,4 +7,5 @@ urlpatterns = [
          name="sign_in_and_get_token"),
     path('api/sign_in_with_token', views.CheckOneTimePasswordAPIView.as_view(),
          name="sign_in_with_token"),
+    path('api/whoami', views.WhoAmI.as_view(), name="whoami"),
 ]
