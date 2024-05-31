@@ -7,10 +7,14 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BaseComponentWithBorders: typeof import('./src/components/BaseComponentWithBorders.vue')['default']
+    BaseComponentWithHeader: typeof import('./src/components/BaseComponentWithHeader.vue')['default']
     Button: typeof import('primevue/button')['default']
     FloatLabel: typeof import('primevue/floatlabel')['default']
     InputOtp: typeof import('primevue/inputotp')['default']
     InputText: typeof import('primevue/inputtext')['default']
+    MagnoliaFooter: typeof import('./src/components/MagnoliaFooter.vue')['default']
+    MagnoliaHeader: typeof import('./src/components/MagnoliaHeader.vue')['default']
     Menu: typeof import('primevue/menu')['default']
     ModalComponent: typeof import('./src/components/ModalWithLogoComponent.vue')['default']
     ModalWithLogoComponent: typeof import('./src/components/ModalWithLogoComponent.vue')['default']
