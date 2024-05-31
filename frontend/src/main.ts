@@ -3,6 +3,8 @@ import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import 'primevue/resources/primevue.min.css';
 
+import '@/assets/styles.scss'
+
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
