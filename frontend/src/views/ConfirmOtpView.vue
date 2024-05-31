@@ -1,7 +1,7 @@
 <template>
   <Toast position="top-right"/>
   <ModalComponent heading="Введите код" :tip="`Мы отправили его на email ${user.email}`">
-    <form @submit.prevent="confirm_otp" class="flex flex-column gap-8 justify-content-center align-items-center h-full">
+    <form @keydown.enter.prevent="confirm_otp" @submit.prevent="confirm_otp" class="flex flex-column gap-8 justify-content-center align-items-center h-full">
       <Skeleton v-if="loading" height="2rem"></Skeleton>
       <InputOtp v-else :length="6" v-model="otp"/>
       <Button
