@@ -5,10 +5,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 DEBUG = os.getenv('DJANGO_DEBUG')
 ALLOWED_HOSTS = [os.getenv('DJANGO_ALLOWED_HOSTS'), ]
-CSRF_TRUSTED_ORIGINS = [os.getenv('DJANGO_CSRF_TRUSTED_ORIGINS'), ]
+CSRF_TRUSTED_ORIGINS = [os.getenv('DJANGO_CSRF_TRUSTED_ORIGINS'), 'http://localhost:8080']
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 APPEND_SLASH = True
-
+CSRF_HEADER_NAME = "X-CSRFToken"
 INTERNAL_IPS = ["127.0.0.1", '*']
 
 INSTALLED_APPS = [
