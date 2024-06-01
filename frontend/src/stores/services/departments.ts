@@ -1,4 +1,4 @@
-export const buildings = [
+export const departments = [
     "Информационные системы",
     "Физика и высшая математика",
     "Системы управления",

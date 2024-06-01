@@ -60,13 +60,9 @@ const useSearchStore = defineStore('search', () => {
         return data as BuildingModel;
     }
 
-    async function searchByQuery(params: {
-        teachers: [],
-        departments: [],
-        buildings: []
-    } | null): Promise<SearchModel> {
+    async function searchByQuery(query?: string, department__name?: string): Promise<SearchModel> {
         let data = {};
-        await api.get(`search/`, { params: { params } })
+        await api.get(`search/`, { params: { query, department__name} })
             .then((response) => data = response.data)
             .catch(error => {
                 console.log(error)
