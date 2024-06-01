@@ -1,3 +1,13 @@
 a {
   text-decoration: none;
 }
+
+::-moz-selection {
+  color: var(--primary-color-text);
+  background-color: var(--primary-color);
+}
+
+::selection {
+  color: var(--primary-color-text);
+  background-color: var(--primary-color);
+}

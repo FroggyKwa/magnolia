@@ -13,4 +13,7 @@ class TeacherAdmin(admin.ModelAdmin):
 class TeacherAdmin(admin.ModelAdmin):
     pass
 
-    
+@admin.register(ExtAttribute)
+class TeacherAdmin(admin.ModelAdmin):
+    pass
+

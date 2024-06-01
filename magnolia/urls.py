@@ -12,6 +12,7 @@ router = routers.DefaultRouter()
 router.register('building', views.BuildingViewSet, basename='building')
 router.register('department', views.DepartmentViewSet, basename='department')
 router.register('teacher', views.TeacherViewSet, basename='teacher')
+router.register('search', views.SearchViewSet, basename='search')
 
 
 urlpatterns = static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
