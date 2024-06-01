@@ -5,79 +5,90 @@
            class="sidebar-content transition-all gap-5 p-5 flex flex-column overflow-scroll surface-0 shadow-4">
         <IconField iconPosition="left">
           <InputGroup class="h-3rem">
-            <InputText v-model="searchQuery" placeholder="Найти помещение или человека"/>
-            <Button @click="searchStore.searchByQuery()" icon="pi pi-search" class="bg-primary"/>
+            <InputText @keydown.enter="updateSearchResults" @input="runWithTimeout" v-model="searchQuery"
+                       placeholder="Найти помещение или человека"/>
+            <Button @click="updateSearchResults" icon="pi pi-search" class="bg-primary"/>
           </InputGroup>
         </IconField>
         <route-input-component/>
         <div class="buttons">
           <div class="flex flex-column gap-2">
             <div class="flex flex-wrap gap-2 department-filters">
-              <Button class="border-round-lg" @click="clickFilterButton($event)" v-for="building in buildings"
-                      :key="building">{{ building }}
+              <Button class="border-round-lg" @click="clickFilterButton($event) && updateSearchResults()"
+                      v-for="name in departments"
+                      :key="name">{{ name }}
               </Button>
             </div>
             <Divider>Дополнительные фильтры</Divider>
             <div class="flex flex-row gap-2 custom-filters">
-              <Button class="border-round-lg" @click="clickFilterButton($event)">Преподаватель</Button>
-              <Button class="border-round-lg" @click="clickFilterButton($event)">Учебный корпус</Button>
+              <Button class="border-round-lg" @click="clickFilterButton($event) && updateSearchResultsWithoutParams()">Преподаватель</Button>
+              <Button class="border-round-lg" @click="clickFilterButton($event) && updateSearchResultsWithoutParams()">Учебный корпус</Button>
             </div>
           </div>
         </div>
         <div class="flex-column results-block">
           <h2>Результаты поиска:</h2>
-          <div class="flex flex-column gap-4 search-results-list">
+          <div class="search-results-list">
             <Divider align="left"><span class="text-lg font-semibold">Преподаватели</span></Divider>
-            <Skeleton height="4rem" class="w-full" v-if="loading"/>
-            <section v-else class="teachers" :key="index"
-                     v-for="(teacher, index) in searchStore.searchResults.teachers">
-              <div>
-                <router-link :to="`teachers/${teacher.id}`">
-                  <div class="search-result text-primary surface-50 shadow-1 border-round-lg p-3 result flex flex-row gap-3">
-                    <i class="text-xl pi pi-user align-self-center"/>
-                    <div class="flex flex-column gap-3">
-                      <h4 class="result-name m-0 font-semibold text-lg">{{ teacher.fullname }}</h4>
-                      <span
-                          class="description text-color-secondary font-light text-sm">{{ teacher.department.name }}
+            <section class="flex flex-column gap-4">
+              <Skeleton height="4rem" class="w-full" v-if="loading"/>
+              <div v-else :hidden="selectedButtonText === 'Учебный корпус'" class="teachers" :key="index"
+                   v-for="(teacher, index) in searchStore.searchResults.teachers">
+                <div>
+                  <router-link :to="`teachers/${teacher.id}`">
+                    <div
+                        class="search-result text-primary surface-50 shadow-1 border-round-lg p-3 result flex flex-row gap-3">
+                      <i class="text-xl pi pi-user align-self-center"/>
+                      <div class="flex flex-column gap-3">
+                        <h4 class="result-name m-0 font-semibold text-lg">{{ teacher.fullname }}</h4>
+                        <span
+                            class="description text-color-secondary font-light text-sm">{{ teacher.department.name }}
                       </span>
+                      </div>
                     </div>
-                  </div>
-                </router-link>
+                  </router-link>
+                </div>
               </div>
             </section>
             <Divider align="left"><span class="text-lg font-semibold">Корпуса</span></Divider>
-            <Skeleton height="4rem" class="w-full" v-if="loading"/>
-            <section v-else class="buildings" :key="index"
-                     v-for="(building, index) in searchStore.searchResults.buildings">
-              <div>
-                <router-link :to="`buildings/${building.id}`">
-                  <div class="search-result text-primary surface-50 shadow-1 border-round-lg p-3 result flex flex-row gap-3">
-                    <i class="text-xl pi pi-user align-self-center"/>
-                    <div class="flex flex-column gap-3">
-                      <h4 class="result-name m-0 font-semibold text-lg">{{ building.name }}</h4>
+            <section class="flex flex-column gap-4">
+              <Skeleton height="4rem" class="w-full" v-if="loading"/>
+              <div v-else :hidden="selectedButtonText === 'Преподаватель'" class="buildings" :key="index"
+                   v-for="(building, index) in searchStore.searchResults.buildings">
+                <div>
+                  <router-link :to="`buildings/${building.id}`">
+                    <div
+                        class="search-result text-primary surface-50 shadow-1 border-round-lg p-3 result flex flex-row gap-3">
+                      <i class="text-xl pi pi-user align-self-center"/>
+                      <div class="flex flex-column gap-3">
+                        <h4 class="result-name m-0 font-semibold text-lg">{{ building.name }}</h4>
+                      </div>
                     </div>
-                  </div>
-                </router-link>
+                  </router-link>
+                </div>
               </div>
             </section>
-            <Divider align="left"><span class="text-lg font-semibold">Преподаватели</span></Divider>
-            <Skeleton height="4rem" class="w-full" v-if="loading"/>
-            <section v-else class="departments" :key="index"
-                     v-for="(department, index) in searchStore.searchResults.departments">
-              <div>
-                <router-link :to="`departments/${department.id}`">
-                  <div class="search-result text-primary surface-50 shadow-1 border-round-lg p-3 result flex flex-row gap-3">
-                    <i class="text-xl pi pi-user align-self-center"/>
-                    <div class="flex flex-column gap-3">
-                      <h4 class="result-name m-0 font-semibold text-lg">{{ department.name }}</h4>
-                      <span
-                          class="description text-color-secondary font-light text-sm">{{
-                          getFirstThreeTeachers(department.id)
-                        }}
+            <Divider align="left"><span class="text-lg font-semibold">Кафедры</span></Divider>
+            <section class="flex flex-column gap-4">
+              <Skeleton height="4rem" class="w-full" v-if="loading"/>
+              <div v-else :hidden="selectedButtonText === 'Преподаватель' || selectedButtonText === 'Учебный корпус'" class="departments" :key="index"
+                   v-for="(department, index) in searchStore.searchResults.departments">
+                <div>
+                  <router-link :to="`departments/${department.id}`">
+                    <div
+                        class="search-result text-primary surface-50 shadow-1 border-round-lg p-3 result flex flex-row gap-3">
+                      <i class="text-xl pi pi-user align-self-center"/>
+                      <div class="flex flex-column gap-3">
+                        <h4 class="result-name m-0 font-semibold text-lg">{{ department.name }}</h4>
+                        <span
+                            class="description text-color-secondary font-light text-sm">{{
+                            getFirstThreeTeachers(department.id)
+                          }}
                       </span>
+                      </div>
                     </div>
-                  </div>
-                </router-link>
+                  </router-link>
+                </div>
               </div>
             </section>
           </div>
@@ -98,7 +109,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import RouteInputComponent from "@/components/RouteInputComponent.vue";
-import { buildings } from "@/stores/services/buildings";
+import { departments } from "@/stores/services/departments";
 import useSearchStore from "@/stores/modules/search";
 
 const searchStore = useSearchStore();
@@ -106,21 +117,25 @@ const searchQuery = ref('');
 const loading = ref(true);
 const hidden = ref(false);
 let selectedButton: EventTarget | null = null;
+const selectedButtonText: String | null = ref('');
 
 function toggle() {
   hidden.value = !hidden.value;
 }
 
 function clickFilterButton(event: Event,) {
+  selectedButtonText.value = '';
   if (selectedButton !== event.target) {
     if (selectedButton)
       (selectedButton as HTMLInputElement).classList.toggle('active');
     selectedButton = event.target;
+    selectedButtonText.value = (event.target as HTMLInputElement).textContent;
     (selectedButton as HTMLInputElement).classList.toggle('active');
   } else {
     (selectedButton as HTMLInputElement).classList.toggle('active');
     selectedButton = null;
   }
+  return true;
 }
 
 function getFirstThreeTeachers(department_id: number): string {
@@ -132,8 +147,25 @@ function getFirstThreeTeachers(department_id: number): string {
   return '';
 }
 
+async function updateSearchResults() {
+  searchStore.receiveSearchResults(await searchStore.searchByQuery(searchQuery.value, (selectedButtonText.value as string)));
+}
+
+async function updateSearchResultsWithoutParams() {
+  searchStore.receiveSearchResults(await searchStore.searchByQuery());
+}
+
+function runWithTimeout() {
+  loading.value = true;
+
+  setTimeout(() => {
+    updateSearchResults();
+    loading.value = false;
+  }, 800)
+}
+
 onMounted(async () => {
-  searchStore.receiveSearchResults(await searchStore.searchByQuery(null));
+  await updateSearchResults();
   loading.value = false;
 })
 </script>

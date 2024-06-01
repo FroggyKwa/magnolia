@@ -29,7 +29,7 @@ class DepartmentViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'head', 'options', 'trace']
     queryset = Department.objects.prefetch_related('teachers', 'buildings').all()
     permission_classes = [permissions.IsAuthenticated]
-    filterset_fields = ['buildings__id']
+    filterset_fields = ['buildings__id', 'name']
     serializer_class = DepartmentSerializer
 
     def list(self, request, *args, **kwargs):
@@ -65,11 +65,8 @@ class SearchViewSet(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def list(self, request, *args, **kwargs):
-        query = dict(
-            teachers=self.request.query_params.get('teachers', '').split(','),
-            departments=self.request.query_params.get('departments', '').split(','),
-            buildings=self.request.query_params.get('buildings', '').split(','))
-        if all(el[0] == '' for el in query.values()):
+        query = self.request.query_params.get('query', '')
+        if not query:
             result_teachers = Teacher.objects.all()
             result_departments = Department.objects.all()
             result_buildings = Building.objects.all()
@@ -77,17 +74,14 @@ class SearchViewSet(viewsets.ViewSet):
             result_teachers = Teacher.objects.none()
             result_departments = Department.objects.none()
             result_buildings = Building.objects.none()
-        for key in query:
-            if not query[key][0]:
-                continue
-            for value in query[key]:
-                if key == 'teachers':
-                    result_teachers = Teacher.objects.filter(fullname__icontains=value).all()
-                if key == 'departments':
-                    result_departments = Department.objects.filter(name__icontains=value).all()
-                if key == 'buildings':
-                    result_buildings = Building.objects.filter(
-                        Q(name__icontains=value) | Q(address__icontains=value)).all()
+            for value in query.split(';'):
+                result_teachers = Teacher.objects.filter(fullname__icontains=value)
+                result_departments = Department.objects.filter(name__icontains=value)
+                result_buildings = Building.objects.filter((Q(name__icontains=value) | Q(address__icontains=value)))
+
+        department_filter = self.request.query_params.get('department__name', '')
+        result_teachers = result_teachers.filter(department__name__icontains=department_filter).distinct()
+        result_departments = result_departments.filter(name__icontains=department_filter).distinct()
         return Response(
             {
                 "teachers": TeacherSerializer(result_teachers, many=True).data,
