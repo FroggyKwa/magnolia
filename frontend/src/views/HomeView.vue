@@ -1,6 +1,6 @@
 <template>
   <BaseComponentWithBorders>
-    smth
+    <right-side-bar />
   </BaseComponentWithBorders>
 </template>
 <script setup lang="ts">
@@ -8,6 +8,7 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import useUserStore from "@/stores/modules/user";
 import BaseComponentWithBorders from "@/components/BaseComponentWithBorders.vue";
+import RightSideBar from "@/components/RightSideBar.vue";
 
 
 const router = useRouter();

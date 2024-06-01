@@ -1,5 +1,5 @@
 <template>
-  <div class="w-screen h-5rem surface-100 shadow-2 flex flex-row justify-content-between">
+  <div class="fixed top-0 w-screen h-5rem surface-100 shadow-2 flex flex-row justify-content-between">
     <router-link :to="{name: 'index'}">
       <div class="ml-3 text-center align-items-center mt-3 flex flex-row gap-0">
         <img src="@/assets/logo.png" alt="İmage" class="mb-3 logo"/>
