@@ -1,11 +1,12 @@
 import datetime
 
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
+from django.shortcuts import redirect
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -58,8 +59,18 @@ class CheckOneTimePasswordAPIView(APIView):
             return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
 
 class WhoAmI(APIView):
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
     def get(self, request):
-        if request.user.is_anonymous:
+        if request.user.is_authenticated:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         return Response(status=status.HTTP_200_OK, data=UserSerializer(request.user).data)
+
+class LogOutApiView(APIView):
+    permission_classes = (IsAuthenticated,)
+    def post(self, request):
+        user = getattr(request.user, 'user', None)
+        if not user:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        logout(request)
+        return Response(status=status.HTTP_200_OK)
+        # return redirect('/')

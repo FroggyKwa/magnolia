@@ -5,9 +5,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 DEBUG = os.getenv('DJANGO_DEBUG')
 ALLOWED_HOSTS = [os.getenv('DJANGO_ALLOWED_HOSTS'), ]
-CSRF_TRUSTED_ORIGINS = [os.getenv('DJANGO_CSRF_TRUSTED_ORIGINS'), 'http://localhost:8080']
+CSRF_TRUSTED_ORIGINS = [os.getenv('DJANGO_CSRF_TRUSTED_ORIGINS'), 'http://localhost:8080', 'http://localhost:8000']
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 APPEND_SLASH = True
+SESSION_COOKIE_HTTPONLY = False
 CSRF_HEADER_NAME = "X-CSRFToken"
 INTERNAL_IPS = ["127.0.0.1", '*']
 
@@ -45,7 +46,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

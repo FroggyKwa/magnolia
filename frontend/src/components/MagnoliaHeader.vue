@@ -8,15 +8,29 @@
         </div>
       </div>
     </router-link>
-    <div class="my-5 mx-8 w-fit">
-      {{ userStore.user.email }}
+    <div class="my-auto mr-8">
+      <Dropdown v-model="sign_out" :options="[{name: 'Выход', code: 'sign_out'}]" optionLabel="name"
+                :placeholder="userStore.user.email" class="flex justify-content-center w-full md:w-15rem">
+      </Dropdown>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import useUserStore from "@/stores/modules/user";
+import { ref, watch } from 'vue';
+import api from "@/stores/services/api";
+import { useRouter } from "vue-router";
 
+
+const sign_out = ref(false);
 const userStore = useUserStore();
+const router = useRouter()
+
+watch(sign_out, () => {
+  api.post('logout/')
+  router.push({ name: 'login' });
+  document.cookie = 'sessionid=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+})
 
 </script>
