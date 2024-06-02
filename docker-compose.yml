@@ -20,7 +20,7 @@ services:
     build:
       context: .
       dockerfile: ./.docker/Dockerfile
-    image: python:3.10
+    image: python:3.11
     command: "sh /application/.docker/conf/gunicorn/django-dev.sh"
     volumes:
       - "./:/application"
@@ -48,7 +48,7 @@ services:
 
   email-service:
     container_name: email-service
-    image: python:3.10
+    image: python:3.11
     command: "sh /application/.docker/conf/gunicorn/celery.sh"
     volumes:
       - "./:/application"

@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
+
 class UserAccountManager(BaseUserManager):
     def create_superuser(self, email, password, **other_fields):
         other_fields.setdefault('is_staff', True)

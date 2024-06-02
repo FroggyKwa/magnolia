@@ -9,7 +9,10 @@ declare module 'vue' {
   export interface GlobalComponents {
     BaseComponentWithBorders: typeof import('./src/components/BaseComponentWithBorders.vue')['default']
     BaseComponentWithHeader: typeof import('./src/components/BaseComponentWithHeader.vue')['default']
+    BuildingDetailsComponent: typeof import('./src/components/BuildingDetailsComponent.vue')['default']
     Button: typeof import('primevue/button')['default']
+    DepartmentDetailsComponent: typeof import('./src/components/DepartmentDetailsComponent.vue')['default']
+    Dialog: typeof import('primevue/dialog')['default']
     Divider: typeof import('primevue/divider')['default']
     FloatLabel: typeof import('primevue/floatlabel')['default']
     IconField: typeof import('primevue/iconfield')['default']
@@ -31,6 +34,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Skeleton: typeof import('primevue/skeleton')['default']
+    TeacherDetailsComponent: typeof import('./src/components/TeacherDetailsComponent.vue')['default']
     ToggleButton: typeof import('primevue/togglebutton')['default']
   }
 }

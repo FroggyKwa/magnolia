@@ -35,39 +35,68 @@ const useSearchStore = defineStore('search', () => {
         ext_attributes: []
     })
 
+    const loading = ref(false);
 
     async function getTeacherById(id: number): Promise<TeacherModel> {
+        loading.value = true;
         let data = {};
-        await api.get(`teachers/${id}`)
+        await api.get(`teachers/${id}/`)
             .then((response) => data = response.data)
             .catch(error => console.log(error));
+        loading.value = false;
         return data as TeacherModel;
     }
 
     async function getDepartmentById(id: number): Promise<DepartmentModel> {
+        loading.value = true;
         let data = {};
-        await api.get(`departments/${id}`)
+        await api.get(`departments/${id}/`)
             .then((response) => data = response.data)
             .catch(error => console.log(error));
+        loading.value = false;
         return data as DepartmentModel;
     }
 
     async function getBuildingById(id: number): Promise<BuildingModel> {
+        loading.value = true;
         let data = {};
-        await api.get(`building/${id}`)
+        await api.get(`buildings/${id}/`)
             .then((response) => data = response.data)
             .catch(error => console.log(error));
+        loading.value = false;
         return data as BuildingModel;
     }
 
     async function searchByQuery(query?: string, department__name?: string): Promise<SearchModel> {
+        loading.value = true;
         let data = {};
-        await api.get(`search/`, { params: { query, department__name} })
+        await api.get(`search/`, { params: { query, department__name } })
             .then((response) => data = response.data)
             .catch(error => {
                 console.log(error)
             });
+        loading.value = false;
         return data as SearchModel;
+    }
+
+    async function getBuildingsByDepartmentId(departmentId: Number): Promise<Array<BuildingModel>> {
+        loading.value = true;
+        let data = {};
+        await api.get(`buildings/`, { params: { department__id: departmentId } })
+            .then(response => data = response.data)
+            .catch(error => console.log(error))
+        loading.value = false;
+        return data;
+    }
+
+    async function getTeachersByDepartmentId(departmentId: Number): Promise<Array<TeacherModel>> {
+        loading.value = true;
+        let data = {};
+        await api.get(`teachers/`, { params: { department__id: departmentId } })
+            .then(response => data = response.data)
+            .catch(error => console.log(error))
+        loading.value = false;
+        return data;
     }
 
     function receiveSearchResults(received_results: SearchModel) {
@@ -79,11 +108,14 @@ const useSearchStore = defineStore('search', () => {
         selectedBuilding,
         selectedTeacher,
         searchResults,
+        loading,
         getBuildingById,
         getDepartmentById,
         getTeacherById,
         receiveSearchResults,
         searchByQuery,
+        getBuildingsByDepartmentId,
+        getTeachersByDepartmentId
     }
 })
 

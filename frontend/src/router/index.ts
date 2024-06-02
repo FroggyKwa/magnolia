@@ -11,6 +11,35 @@ const router = createRouter({
             name: 'index',
             component: HomeView
         },
+
+        {
+            path: '/teachers/:teacherId',
+            name: 'indexWithTeacherId',
+            component: HomeView,
+            props: (route: any) => {
+                const teacherId = Number.parseInt(route.params.teacherId as string, 10);
+                return { ...route.params, teacherId  };
+            },
+        },
+        {
+            path: '/departments/:departmentId',
+            name: 'indexWithDepartmentId',
+            component: HomeView,
+            props: (route: any) => {
+                const departmentId = Number.parseInt(route.params.departmentId as string, 10);
+                return { ...route.params, departmentId };
+            },
+        },
+        {
+            path: '/buildings/:buildingId',
+            name: 'indexWithBuildingId',
+            component: HomeView,
+            props: (route: any) => {
+                const buildingId = Number.parseInt(route.params.buildingId as string, 10);
+                return { ...route.params, buildingId};
+            },
+        },
+
         {
             path: '/login',
             name: 'login',

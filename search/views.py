@@ -78,10 +78,12 @@ class SearchViewSet(viewsets.ViewSet):
                 result_teachers = Teacher.objects.filter(fullname__icontains=value)
                 result_departments = Department.objects.filter(name__icontains=value)
                 result_buildings = Building.objects.filter((Q(name__icontains=value) | Q(address__icontains=value)))
-
         department_filter = self.request.query_params.get('department__name', '')
-        result_teachers = result_teachers.filter(department__name__icontains=department_filter).distinct()
-        result_departments = result_departments.filter(name__icontains=department_filter).distinct()
+        if department_filter:
+            result_teachers = result_teachers.filter(department__name__icontains=department_filter).distinct()
+            result_departments = result_departments.filter(name__icontains=department_filter).distinct()
+            building_test = Department.objects.filter(name__icontains=department_filter)
+            result_buildings = result_buildings.filter(departments__in=building_test).distinct()
         return Response(
             {
                 "teachers": TeacherSerializer(result_teachers, many=True).data,

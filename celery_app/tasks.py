@@ -13,11 +13,9 @@ logger = get_task_logger(__name__)
 @app.task()
 def send_email(token, email, hostname):
     email_plaintext_message = f"""
+    <br>
     Код: <b>{token[-6:]}</b>
-    <br>
-    <br>
-    Ссылка для входа: 
-    {hostname.strip('/')}/verify?token={token}"""
+    <br>"""
 
     send_mail(
         "Временный пароль для magnolia",
