@@ -138,6 +138,7 @@ import capitalize from "@/utils/string_utils";
 import TeacherDetailsComponent from "@/components/TeacherDetailsComponent.vue";
 import BuildingDetailsComponent from "@/components/BuildingDetailsComponent.vue";
 import DepartmentDetailsComponent from "@/components/DepartmentDetailsComponent.vue";
+import useUserStore from "@/stores/modules/user";
 
 const router = useRouter()
 const route = useRoute();
@@ -208,7 +209,8 @@ function runWithTimeout() {
 }
 
 onMounted(async () => {
-
+  if (await useUserStore().fetchCurrentUser().id === -1)
+    return
   if (props.teacherId)
     searchStore.selectedTeacher = await searchStore.getTeacherById(props.teacherId);
   if (props.departmentId)
