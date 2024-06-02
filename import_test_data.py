@@ -86,6 +86,8 @@ for data in departments_data:
 
 for data in teachers_data:
     idx, name, department_id = data
+    if department_id is not None:
+        teacher =  models.Teacher.objects.create(fullname=name, department_id=department_id)
+    else:
+        teacher =  models.Teacher.objects.create(fullname=name)
 
-    teacher =  models.Teacher.objects.create(fullname=name, department_id=department_id)
-    teacher.department = models.Department.objects.get(pk=department_id)

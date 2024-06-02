@@ -9,9 +9,9 @@ from users.default_view import index
 
 router = routers.DefaultRouter()
 
-router.register('building', views.BuildingViewSet, basename='building')
-router.register('department', views.DepartmentViewSet, basename='department')
-router.register('teacher', views.TeacherViewSet, basename='teacher')
+router.register('buildings', views.BuildingViewSet, basename='building')
+router.register('departments', views.DepartmentViewSet, basename='department')
+router.register('teachers', views.TeacherViewSet, basename='teacher')
 router.register('search', views.SearchViewSet, basename='search')
 
 

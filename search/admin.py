@@ -6,14 +6,22 @@ class BuildingAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(Department)
-class TeacherAdmin(admin.ModelAdmin):
+class DepartmentAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(Teacher)
 class TeacherAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(ExtAttribute)
-class TeacherAdmin(admin.ModelAdmin):
+@admin.register(TeacherExtAttribute)
+class TeacherExtAttributeAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(BuildingExtAttribute)
+class BuildingExtAttributeAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(DepartmentExtAttribute)
+class DepartmentExtAttributeAdmin(admin.ModelAdmin):
     pass
 

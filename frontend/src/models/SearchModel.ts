@@ -1,11 +1,14 @@
 export interface TeacherModel {
     id: number,
     fullname: string,
-    department: {
+    department?: {
         id: number,
         name: string
     }
-    ext_attributes?: Array<string>
+    ext_attributes?: Array<{
+        name: String,
+        value: String
+    }>
 }
 
 export interface DepartmentModel {
@@ -13,15 +16,21 @@ export interface DepartmentModel {
     name: string,
     buildings: Array<number>,
     teachers: Array<number>,
-    ext_attributes?: Array<string>
+    ext_attributes?: Array<{
+        name: String,
+        value: String
+    }>
 }
 
 export interface BuildingModel {
     id: number,
     name: string,
     address: string,
-    departments: Array<DepartmentModel>,
-    ext_attributes?: Array<string>
+    departments?: Array<DepartmentModel>,
+    ext_attributes?: Array<{
+        name: String,
+        value: String
+    }>
 }
 
 export interface SearchModel {
