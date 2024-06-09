@@ -4,7 +4,7 @@
       <div class="ml-3 text-center align-items-center mt-3 flex flex-row gap-0">
         <img src="@/assets/logo.png" alt="İmage" class="mb-3 logo"/>
         <div class="text-900 text-2xl font-semibold mb-3">
-          Magnolia
+          Виртуальный помощник КамчатГТУ
         </div>
       </div>
     </router-link>

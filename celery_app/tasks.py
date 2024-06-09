@@ -1,3 +1,5 @@
+import os
+
 from celery import shared_task
 from django.db.models import QuerySet
 from django.utils import timezone
@@ -20,7 +22,7 @@ def send_email(token, email, hostname):
     send_mail(
         "Временный пароль для magnolia",
         email_plaintext_message,
-        "golovankov.is@mail.ru",
+        os.getenv("EMAIL_HOST_USER"),
         [email],
         html_message=email_plaintext_message,
     )

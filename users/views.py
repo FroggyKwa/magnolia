@@ -59,9 +59,9 @@ class CheckOneTimePasswordAPIView(APIView):
             return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
 
 class WhoAmI(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
     def get(self, request):
-        if request.user.is_authenticated:
+        if request.user.is_anonymous:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         return Response(status=status.HTTP_200_OK, data=UserSerializer(request.user).data)
 
