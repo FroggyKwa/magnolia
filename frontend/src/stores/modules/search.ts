@@ -35,7 +35,7 @@ const useSearchStore = defineStore('search', () => {
         ext_attributes: []
     })
 
-    const loading = ref(false);
+    const loading: Ref<Boolean> = ref(false);
 
     async function getTeacherById(id: number): Promise<TeacherModel> {
         loading.value = true;
@@ -86,7 +86,7 @@ const useSearchStore = defineStore('search', () => {
             .then(response => data = response.data)
             .catch(error => console.log(error))
         loading.value = false;
-        return data;
+        return data as Array<BuildingModel>;
     }
 
     async function getTeachersByDepartmentId(departmentId: Number): Promise<Array<TeacherModel>> {
@@ -96,7 +96,7 @@ const useSearchStore = defineStore('search', () => {
             .then(response => data = response.data)
             .catch(error => console.log(error))
         loading.value = false;
-        return data;
+        return data as Array<TeacherModel>;
     }
 
     function receiveSearchResults(received_results: SearchModel) {

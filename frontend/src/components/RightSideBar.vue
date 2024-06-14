@@ -201,7 +201,7 @@ async function updateSearchResultsWithoutParams() {
 }
 
 function runWithTimeout() {
-  searchStore.loading.value = true;
+  searchStore.loading = true;
 
   setTimeout(() => {
     updateSearchResults();
