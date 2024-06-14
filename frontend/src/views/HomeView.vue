@@ -17,7 +17,7 @@
           max-camera-orbit='auto 90deg 100%'
           min-field-of-view='0.5deg'
           max-field-of-view='20deg'
-          shadow-intensity="1">
+          shadow-intensity="0">
         <template v-slot:progress-bar>
           <div class="progress-bar hide">
             <div class="update-bar"></div>
