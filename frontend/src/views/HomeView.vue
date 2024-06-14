@@ -13,8 +13,8 @@
           ar ar-modes="webxr scene-viewer quick-look"
           camera-controls
           tone-mapping="neutral"
-          min-camera-orbit='auto auto 100%'
-          max-camera-orbit='auto auto 100%'
+          min-camera-orbit='auto 0deg 100%'
+          max-camera-orbit='auto 90deg 100%'
           min-field-of-view='0.5deg'
           max-field-of-view='20deg'
           shadow-intensity="1">
