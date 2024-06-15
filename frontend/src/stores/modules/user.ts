@@ -8,7 +8,8 @@ const useUserStore = defineStore('user', () => {
     const user: Ref<UserModel> = ref({
         id: -1,
         fullname: '',
-        email: ''
+        email: '',
+        usertype: '',
     });
     const authenticated: Ref<boolean> = ref(false);
     const fetching: Ref<boolean> = ref(true);
@@ -32,7 +33,8 @@ const useUserStore = defineStore('user', () => {
                     data = {
                         id: -1,
                         fullname: '',
-                        email: ''
+                        email: '',
+                        usertype: '',
                     }
             });
         fetching.value = false;

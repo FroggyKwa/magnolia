@@ -7,7 +7,7 @@
           <IconField iconPosition="left">
             <InputGroup class="h-3rem">
               <InputText @keydown.enter="updateSearchResults" @input="runWithTimeout" v-model="searchQuery"
-                         placeholder="Найти помещение или человека"/>
+                         placeholder="Найти помещение или преподавателя"/>
               <Button @click="updateSearchResults" icon="pi pi-search" class="bg-primary"/>
             </InputGroup>
           </IconField>
@@ -209,7 +209,7 @@ function runWithTimeout() {
 }
 
 onMounted(async () => {
-  if (await useUserStore().fetchCurrentUser().id === -1)
+  if ((await useUserStore().fetchCurrentUser()).id === -1)
     return
   if (props.teacherId)
     searchStore.selectedTeacher = await searchStore.getTeacherById(props.teacherId);
@@ -226,7 +226,8 @@ onMounted(async () => {
 
 <style scoped lang="stylus">
 .sidebar
-  max-width 45rem
+  max-width 50rem
+  min-width 35rem
   padding-bottom 3rem
   padding-top 5rem
 

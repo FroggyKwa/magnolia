@@ -18,7 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'email', 'fullname', 'email_confirmed']
+        fields = ['id', 'email', 'fullname', 'email_confirmed', 'usertype']
 
 
 class OTPCheckSerializer(serializers.Serializer):

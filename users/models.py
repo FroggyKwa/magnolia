@@ -5,7 +5,6 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
-
 class UserAccountManager(BaseUserManager):
     def create_superuser(self, email, password, **other_fields):
         other_fields.setdefault('is_staff', True)
@@ -40,12 +39,17 @@ class UserAccountManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    class UserType(models.TextChoices):
+        STUDENT = ('ST', _('Student'))
+        ENROLLEE = ('EN', _('Enrollee'))
+
     fullname = models.CharField(blank=True, max_length=255)
     email = models.EmailField(_('email address'), unique=True)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     email_confirmed = models.BooleanField(default=False, verbose_name="Is email confirmed")
     date_joined = models.DateTimeField(default=timezone.now)
+    usertype = models.CharField(max_length=2, choices=UserType.choices, default=UserType.ENROLLEE)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

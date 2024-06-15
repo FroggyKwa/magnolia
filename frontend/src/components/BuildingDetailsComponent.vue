@@ -2,8 +2,11 @@
 
 import capitalize from "@/utils/string_utils";
 import useSearchStore from "@/stores/modules/search";
+import user from "@/stores/modules/user";
+import useUserStore from "@/stores/modules/user";
 
 const searchStore = useSearchStore();
+const userStore = useUserStore();
 
 const props = defineProps({
   buildingId: { type: Number, required: false, default: null }
@@ -20,12 +23,12 @@ const props = defineProps({
     <div class="info flex flex-column gap-5">
       <div class="address flex flex-column">
         <span class="text-2xl line-height-3 mr-2 font-semibold">Адрес:</span>
-        <span class="address-text text-2xl line-height-3">{{searchStore.selectedBuilding.address}}</span>
+        <span class="address-text text-2xl line-height-3">{{ searchStore.selectedBuilding.address }}</span>
       </div>
-        <span class="text-2xl line-height-3 mr-2 font-semibold">
+      <div v-if="userStore.user.usertype === 'ST'" class="departments flex flex-column gap-3">
+      <span class="text-2xl line-height-3 mr-2 font-semibold">
             Кафедры в здании:
-        </span>
-      <div class="departments flex flex-column gap-3">
+      </span>
         <div class="department" :key="index" v-for="(department, index) in searchStore.selectedBuilding.departments">
           <router-link
               :to="{name: 'indexWithDepartmentId', params: {departmentId: department.id}}">
