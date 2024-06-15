@@ -9,7 +9,7 @@
       <model-viewer
           disable-tap
           class="align-self-center"
-          src="scene.glb"
+          src="/scene.glb"
           ar ar-modes="webxr scene-viewer quick-look"
           camera-controls
           tone-mapping="neutral"
