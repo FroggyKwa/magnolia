@@ -34,6 +34,7 @@ declare module 'vue' {
     RouteInputComponent: typeof import('./src/components/RouteInputComponent.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SelectButton: typeof import('primevue/selectbutton')['default']
     Skeleton: typeof import('primevue/skeleton')['default']
     TeacherDetailsComponent: typeof import('./src/components/TeacherDetailsComponent.vue')['default']
     ToggleButton: typeof import('primevue/togglebutton')['default']

@@ -41,8 +41,8 @@ const useUserStore = defineStore('user', () => {
         return data as UserModel;
     }
 
-    async function get_otp(payload: { email: string }) {
-        await api.post(`sign_in`, { email: payload.email })
+    async function get_otp(payload: { email: string, usertype: string }) {
+        await api.post(`sign_in`, { email: payload.email, usertype: payload.usertype })
             .then(() => {
                 email_sent.value = new Date();
             })

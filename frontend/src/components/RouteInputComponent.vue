@@ -46,10 +46,8 @@
 <script setup lang="ts">
 import useSearchStore from "@/stores/modules/search";
 import { buildings, RouteKey, routesWithFilenames } from "@/stores/services/buildingRoutes";
-import { ref } from "vue";
 
 const searchStore = useSearchStore();
-const invalid = ref(false);
 
 function updateScene() {
   const routeKey = new RouteKey(searchStore.from, searchStore.to);

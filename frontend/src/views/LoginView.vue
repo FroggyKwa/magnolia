@@ -2,12 +2,22 @@
   <Toast position="top-right"/>
   <ModalComponent heading="Добро пожаловать!" tip="Войдите, чтобы продолжить">
     <Skeleton v-if="loading" height="10rem"></Skeleton>
-    <form v-else @submit.prevent="get_otp" class="flex flex-column justify-content-center align-items-center h-full">
+    <form v-else @submit.prevent="get_otp" class="flex flex-column gap-5 justify-content-center align-items-center h-full">
+      <div class="flex flex-row">
+        <SelectButton
+            :allow-empty="false"
+            v-model="usertype"
+            optionLabel="name"
+            option-value="value"
+            dataKey="value"
+            :options="[{value :'ST', name: 'Студент'}, {value: 'EN', name: 'Абитурент'}]">
+        </SelectButton>
+      </div>
       <InputText v-model="email" @update:model-value="() => validateEmail()"
                  :class="{'p-invalid': isEmailFieldInvalid && email}" placeholder="Email"
-                 class="mb-3 mt-7text-xl" id="email-field"/>
+                 id="email-field"/>
       <Button
-          class="min-w-max px-5 my-8 border-round-3xl transition-colors transition-duration- bg-primary hover:bg-primary-reverse"
+          class="min-w-max my-3 px-5 border-round-3xl transition-colors transition-duration- bg-primary hover:bg-primary-reverse"
           @click="get_otp"
           label="Отправить код"/>
     </form>
@@ -27,6 +37,8 @@ let isEmailFieldInvalid = ref(true);
 const toast = useToast();
 const userStore = useUserStore();
 const router = useRouter();
+const usertype = ref('EN');
+
 
 const loading = ref(true);
 
@@ -46,7 +58,7 @@ function get_otp() {
     })
     return;
   }
-  const payload = { email: email.value };
+  const payload = { email: email.value, usertype: usertype.value };
   userStore.get_otp(payload);
   userStore.updateUserMutation(payload)
   router.push({ name: "confirm_otp_view" })
