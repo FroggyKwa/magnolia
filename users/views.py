@@ -23,7 +23,8 @@ class SignInAPIView(APIView):
             data = request.data
             serializer = UserSerializer(data=data)
             serializer.is_valid(raise_exception=True)
-            user, _ = User.objects.get_or_create(email=serializer.validated_data.get("email"))
+            user, _ = User.objects.get_or_create(email=serializer.validated_data.get("email"),
+                                                 usertype=serializer.validated_data.get("usertype"))
             token = OneTimePassword.generate_token()
             otp, _ = OneTimePassword.objects.update_or_create(
                 user_id=user.id,
@@ -58,15 +59,19 @@ class CheckOneTimePasswordAPIView(APIView):
         except ValidationError as e:
             return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
 
+
 class WhoAmI(APIView):
     permission_classes = (AllowAny,)
+
     def get(self, request):
         if request.user.is_anonymous:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         return Response(status=status.HTTP_200_OK, data=UserSerializer(request.user).data)
 
+
 class LogOutApiView(APIView):
     permission_classes = (IsAuthenticated,)
+
     def post(self, request):
         user = getattr(request.user, 'user', None)
         if not user:

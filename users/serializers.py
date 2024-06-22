@@ -8,7 +8,9 @@ from users.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(required=True)
+    email = serializers.EmailField(required=True, allow_blank=False)
+    usertype = serializers.ChoiceField(['ST', 'EN'])
+
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
 
@@ -24,6 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
 class OTPCheckSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     code = serializers.CharField(required=True)
+
     def validate(self, attrs):
         code = attrs.get('code')
         otp = get_object_or_404(OneTimePassword, token__endswith=code)
