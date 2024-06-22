@@ -35,6 +35,12 @@ const useSearchStore = defineStore('search', () => {
         ext_attributes: []
     })
 
+    const PATH_TO_SCENES: string = "/scene_models/";
+    const DEFAULT_SCENE_PATH: string = PATH_TO_SCENES + "main_scene.glb";
+    const scenePath = ref(DEFAULT_SCENE_PATH);
+    const from = ref('');
+    const to = ref('');
+
     const loading: Ref<Boolean> = ref(false);
 
     async function getTeacherById(id: number): Promise<TeacherModel> {
@@ -103,19 +109,34 @@ const useSearchStore = defineStore('search', () => {
         searchResults.value = received_results
     }
 
+    function updateScenePath(path: string) {
+        scenePath.value = PATH_TO_SCENES + path;
+    }
+
+    function updateScenePathToDefault() {
+        scenePath.value = DEFAULT_SCENE_PATH;
+    }
+
+
+
     return {
         selectedDepartment,
         selectedBuilding,
         selectedTeacher,
         searchResults,
+        from,
+        to,
         loading,
+        scenePath,
         getBuildingById,
         getDepartmentById,
         getTeacherById,
         receiveSearchResults,
         searchByQuery,
         getBuildingsByDepartmentId,
-        getTeachersByDepartmentId
+        getTeachersByDepartmentId,
+        updateScenePath,
+        updateScenePathToDefault
     }
 })
 

@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar h-screen">
-    <div class="sidebar-group w-full h-full flex flex-row gap-2">
+    <div class="sidebar-group h-full flex flex-row gap-2">
       <div v-if="!isSidebarHidden"
            class="sidebar-content transition-all gap-5 p-5 flex flex-column overflow-scroll surface-0 shadow-4">
         <div v-if="!(route.params.teacherId || route.params.departmentId || route.params.buildingId)">
@@ -11,7 +11,7 @@
               <Button @click="updateSearchResults" icon="pi pi-search" class="bg-primary"/>
             </InputGroup>
           </IconField>
-          <route-input-component/>
+          <route-input-component />
           <div class="buttons">
             <div class="flex flex-column gap-2">
               <div class="flex flex-wrap gap-2 department-filters">
@@ -106,13 +106,13 @@
           </div>
         </div>
         <div v-else-if="teacherId">
-          <teacher-details-component :teacher-id="teacherId"/>
+          <teacher-details-component :teacher-id="teacherId" />
         </div>
         <div v-else-if="buildingId">
-          <building-details-component :building-id="buildingId"/>
+          <building-details-component :building-id="buildingId" />
         </div>
         <div v-else-if="departmentId">
-          <department-details-component :department-id="departmentId"/>
+          <department-details-component :department-id="departmentId" />
         </div>
 
       </div>
@@ -139,6 +139,7 @@ import TeacherDetailsComponent from "@/components/TeacherDetailsComponent.vue";
 import BuildingDetailsComponent from "@/components/BuildingDetailsComponent.vue";
 import DepartmentDetailsComponent from "@/components/DepartmentDetailsComponent.vue";
 import useUserStore from "@/stores/modules/user";
+import { RouteKey, routesWithFilenames } from "@/stores/services/buildingRoutes";
 
 const router = useRouter()
 const route = useRoute();
@@ -217,8 +218,6 @@ onMounted(async () => {
     searchStore.selectedDepartment = await searchStore.getDepartmentById(props.departmentId);
   if (props.buildingId)
     searchStore.selectedBuilding = await searchStore.getBuildingById(props.buildingId);
-
-
   await updateSearchResults();
 })
 
@@ -227,7 +226,6 @@ onMounted(async () => {
 <style scoped lang="stylus">
 .sidebar
   max-width 50rem
-  min-width 35rem
   padding-bottom 3rem
   padding-top 5rem
 

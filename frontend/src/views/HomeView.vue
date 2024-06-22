@@ -9,7 +9,7 @@
       <model-viewer
           disable-tap
           class="align-self-center"
-          src="/scene.glb"
+          v-model:src="searchStore.scenePath"
           ar ar-modes="webxr scene-viewer quick-look"
           camera-controls
           tone-mapping="neutral"
@@ -33,10 +33,12 @@ import { useRouter } from "vue-router";
 import useUserStore from "@/stores/modules/user";
 import BaseComponentWithBorders from "@/components/BaseComponentWithBorders.vue";
 import RightSideBar from "@/components/RightSideBar.vue";
+import useSearchStore from "@/stores/modules/search";
 
 
 const router = useRouter();
-const userStore = useUserStore()
+const userStore = useUserStore();
+const searchStore = useSearchStore();
 
 const props = defineProps({
   teacherId: { type: Number, required: false, default: null },
