@@ -12,11 +12,18 @@ class UserSerializer(serializers.ModelSerializer):
     usertype = serializers.ChoiceField(['ST', 'EN'])
 
     def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
+        user, _ = User.objects.update_or_create(email=validated_data['email'],
+                                                defaults={'email': validated_data.get('email'),
+                                                          'usertype': validated_data.get('usertype', 'EN')})
+        return user
+
 
     def update(self, instance, validated_data):
         instance.email_confirmed = validated_data.get('email_confirmed', instance.email_verified)
         instance.fullname = validated_data.get('fullname', instance.fullname)
+        instance.usertype = validated_data.get('usertype', instance.usertype)
+        return instance
+
 
     class Meta:
         model = User

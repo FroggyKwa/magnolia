@@ -10,7 +10,7 @@
     </router-link>
     <div class="my-auto mr-8">
       <Dropdown v-model="sign_out" :options="[{name: 'Выход', code: 'sign_out'}]" optionLabel="name"
-                :placeholder="userStore.user.email" class="flex justify-content-center w-full md:w-15rem">
+                :placeholder="userStore.user.email" class="flex justify-content-center w-full md:w-15rem user-dropdown">
       </Dropdown>
     </div>
   </footer>
@@ -37,5 +37,7 @@ watch(sign_out, () => {
 
 <style lang="stylus">
 footer
-  z-index 10000
+  z-index 100
+  .user-dropdown
+    z-index 101
 </style>

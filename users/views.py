@@ -23,8 +23,9 @@ class SignInAPIView(APIView):
             data = request.data
             serializer = UserSerializer(data=data)
             serializer.is_valid(raise_exception=True)
-            user, _ = User.objects.get_or_create(email=serializer.validated_data.get("email"),
-                                                 usertype=serializer.validated_data.get("usertype"))
+            # user, _ = User.objects.update_or_create(email=serializer.validated_data.get("email"),
+            #                                      usertype=serializer.validated_data.get("usertype"))
+            user = serializer.save()
             token = OneTimePassword.generate_token()
             otp, _ = OneTimePassword.objects.update_or_create(
                 user_id=user.id,
