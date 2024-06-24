@@ -13,10 +13,12 @@
           ar ar-modes="webxr scene-viewer quick-look"
           camera-controls
           tone-mapping="neutral"
-          min-camera-orbit='auto 0deg 100%'
-          max-camera-orbit='auto 90deg 100%'
+          camera-orbit="0deg 60deg"
+          camera-target="0m 0m 0m"
+          min-camera-orbit='auto 0deg 10%'
+          max-camera-orbit='auto 70deg 25%'
           min-field-of-view='0.5deg'
-          max-field-of-view='20deg'
+          max-field-of-view='15deg'
           shadow-intensity="0">
         <template v-slot:progress-bar>
           <div class="progress-bar hide">
